@@ -1,25 +1,38 @@
-body {
-    background-color: #9F5C1D;
-    font-family: 'Arial', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-h1 {
-    margin: 3% 0;
-    text-align: center;
+html {
+    font-family: 'Arial', sans-serif;
+    font-size: 90%;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    background-color: #9F5C1D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3%;
+}
+
+nav h1 {
     color: #fff;
 }
 
-.shelf-container {
+.container {
     background-color: #fff;
-    border-radius: 0.5rem;
-    padding: 5%;
-    width: 70%;
     margin: 0 auto;
-    height: 100vh;
+    padding: 5%;
+    width: 60%;
 }
 
-.shelf {
-    margin-top: 20px; 
+.book-shelf-title {
+    margin: 2% 0 1.5% 0; 
 }
 
 ul {
@@ -28,14 +41,13 @@ ul {
 }
 
 li {
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 0.3rem;
+    padding: 1%;
 }
 
 li span {
     display: block;
-    margin-bottom: 5px;
 }
 
 button {
@@ -46,6 +58,7 @@ button {
     border-radius: 0.3rem;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    margin-bottom: 1%;
 }
 
 button:hover {
@@ -54,4 +67,52 @@ button:hover {
 
 li:hover {
     background-color: #f5f5f5;
+}
+
+.banner-container {
+    max-height: 10rem;
+    font-size: 80%;
+    padding: 2% 5%;
+    margin: 5% 0;
+    border-radius: 0.5rem;
+    border: solid 0.05rem #5A5039;
+}
+
+.banner-items {
+    border-radius: 0.5rem;
+    background-color: #fff;
+    color: black;
+}
+
+.banner-items h3 {
+    margin: 1% 0;
+}
+
+#banner li {
+    list-style-type: none; 
+    border: 0;
+    padding: 0;
+    margin-bottom: 1%;
+}
+
+#banner li:hover {
+    background-color: #fff;
+}
+
+.banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-image img {
+    max-height: 6rem;
+    max-width: auto;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+footer {
+    margin: 5% 0;
 }

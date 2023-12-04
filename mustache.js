@@ -1,3 +1,4 @@
+// Book list
 const FANTASY_BOOKS = [
   { author: "J.K. Rowling", title: "Harry Potter", price: "$19.99" },
   { author: "George R.R. Martin", title: "A Game of Thrones", price: "$24.99" },
@@ -35,3 +36,23 @@ function toggleBookList(bookListId, booksData) {
     bookList.hide();
   }
 }
+
+// Banner Fetching
+function renderBanner(bannerID, bannerData) {
+  let banner = $(bannerID);
+  let bannerTemplate =
+    "{{#banner}}<div class='banner-content'><div class='banner-text'><ul></li><li><h3>Ads</h3></li><li>{{ title }}</li><li>{{ description }}</li><li>Buy Now! Price: ${{ price }}</li></ul></div><div class='banner-image'><img src='{{ image }}' alt='{{ title }}'></div></div>{{/banner}}";
+  let renderedBanner = Mustache.render(bannerTemplate, { banner: bannerData });
+  banner.html(renderedBanner);
+  banner.show();
+}
+
+fetch("https://fakestoreapi.com/products/1")
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+    renderBanner("#banner", json);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
