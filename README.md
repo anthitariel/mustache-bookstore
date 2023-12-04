@@ -28,4 +28,4 @@ The template includes functionality to fetch banner data. This enriches the user
 
 ### How to Fetch Banner Data
 
-The project utilizes the `fetch` API to retrieve banner data asynchronously from [Fake Store API](https://fakestoreapi.com/products/1). The fetched data is then dynamically rendered on the page, creating an interactive and engaging shopping experience.
+The project utilizes the `fetch` API to retrieve banner data asynchronously from [Fake Store API](https://fakestoreapi.com). The fetched data is then dynamically rendered on the page, creating an interactive and engaging shopping experience.
