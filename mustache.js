@@ -1,28 +1,51 @@
-// Book list
-const FANTASY_BOOKS = [
-  { author: "J.K. Rowling", title: "Harry Potter", price: "$19.99" },
-  { author: "George R.R. Martin", title: "A Game of Thrones", price: "$24.99" },
-  { author: "Terry Pratchett", title: "Discworld", price: "$15.99" },
-  { author: "Neil Gaiman", title: "American Gods", price: "$21.99" },
-  { author: "Brandon Sanderson", title: "Mistborn", price: "$18.99" }
+// Book list data
+const bookList = [
+  {
+    genre: "Fantasy",
+    books: [
+      { author: "J.K. Rowling", title: "Harry Potter", price: "$19.99" },
+      { author: "George R.R. Martin", title: "A Game of Thrones", price: "$24.99" },
+      { author: "Terry Pratchett", title: "Discworld", price: "$15.99" },
+      { author: "Neil Gaiman", title: "American Gods", price: "$21.99" },
+      { author: "Brandon Sanderson", title: "Mistborn", price: "$18.99" }
+    ],
+  },
+  {
+    genre: "Fairy Tales",
+    books: [
+      { author: "Hans Christian Andersen", title: "The Little Mermaid", price: "$14.99" },
+      { author: "Brothers Grimm", title: "Cinderella", price: "$16.99" },
+      { author: "Charles Perrault", title: "Beauty and the Beast", price: "$12.99" },
+      { author: "Lewis Carroll", title: "Alice's Adventures in Wonderland", price: "$20.99" },
+      { author: "J.M. Barrie", title: "Peter Pan", price: "$17.99" }
+    ],
+  },
 ];
 
-const FAIRY_TALES_BOOKS = [
-  { author: "Hans Christian Andersen", title: "The Little Mermaid", price: "$14.99" },
-  { author: "Brothers Grimm", title: "Cinderella", price: "$16.99" },
-  { author: "Charles Perrault", title: "Beauty and the Beast", price: "$12.99" },
-  { author: "Lewis Carroll", title: "Alice's Adventures in Wonderland", price: "$20.99" },
-  { author: "J.M. Barrie", title: "Peter Pan", price: "$17.99" }
-];
+// Select all elements with class "book-shelf"
+const bookShelves = $(".book-shelf");
 
-$("#fantasy-btn").on("click", function () {
-  toggleBookList("#fantasy-books", FANTASY_BOOKS);
+// Generate HTML for each bookshelf and append it to the DOM
+bookList.forEach(shelf => {
+  const shelfHTML = `
+    <div class="shelf" data-genre="${shelf.genre}">
+      <h2 class="book-shelf-title">${shelf.genre} Books</h2>
+      <button class="book-shelf-btn">Shop now</button>
+      <ul class="book-list" style="display: none"></ul>
+    </div>
+  `;
+  bookShelves.append(shelfHTML);
 });
 
-$("#fairy-tales-btn").on("click", function () {
-  toggleBookList("#fairy-tales-books", FAIRY_TALES_BOOKS);
+// Event handling for dynamically generated buttons
+bookShelves.on("click", ".book-shelf-btn", function () {
+  const bookList = $(this).siblings(".book-list");
+  const genre = $(this).closest(".shelf").data("genre");
+  const booksData = bookList.find(shelf => shelf.genre === genre).books;
+  toggleBookList(bookList, booksData);
 });
 
+// Function to toggle book list visibility
 function toggleBookList(bookListId, booksData) {
   let bookList = $(bookListId);
   let isHidden = bookList.is(":hidden");
@@ -38,6 +61,7 @@ function toggleBookList(bookListId, booksData) {
 }
 
 // Banner Fetching
+// Function to render banner with fetched data
 function renderBanner(bannerID, bannerData) {
   let banner = $(bannerID);
   let bannerTemplate =
@@ -47,6 +71,7 @@ function renderBanner(bannerID, bannerData) {
   banner.show();
 }
 
+// Fetch data from the API and render the banner
 fetch("https://fakestoreapi.com/products/1")
   .then((res) => res.json())
   .then((json) => {
