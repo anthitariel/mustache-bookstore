@@ -30,16 +30,6 @@ const template = `
     {{ author }} - {{ title }} - {{ price }}
   </li>
 {{/books}}
-  <div class="popup" role="dialog">
-    <div onclick="togglePopup()" class="close-btn">&times;</div>
-    <div class="popup-details">
-      <img id="popup-image" src="" alt="">
-      <h2 id="popup-title"></h2>
-      <p id="popup-author"></p>
-      <p id="popup-price"></p>
-    </div>
-    <button class="popup-btn">Add to cart</button>
-  </div>
 `;
 
 // Popup displaying book details
@@ -49,16 +39,26 @@ function togglePopup(author, title, price, image) {
   $("#popup-title").text(title);
   $("#popup-author").text(`Author: ${author}`);
   $("#popup-price").text(`Price: ${price}`);
+  $(".modal").toggle();
   $(".popup").toggle();
 }
 
 $(document).mouseup(function (e) {
-  var popup = $(".popup");
+  const popup = $(".popup");
+  const modal = $(".modal");
   if (!popup.is(e.target) && popup.has(e.target).length === 0) {
     popup.hide();
+    modal.hide();
   }
 });
 
+// Close button functionality
+function closePopup() {
+  $(".popup").hide();
+}
+
+// Bind the closePopup function to the close button
+$(".close-btn").on("click", closePopup);
 
 // Function to generate HTML for a bookshelf dynamically
 function generateBookshelfHtml(genre, btnId, shelfId, booksId, booksData) {

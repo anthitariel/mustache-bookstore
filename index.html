@@ -16,7 +16,18 @@
 
      <!-- Bookshelf section -->
      <div class="book-shelf"></div>
-      
+      <!-- Modal and Popup-->
+      <div class="modal"></div>
+      <div class="popup" role="dialog">
+        <div onclick="togglePopup()" class="close-btn">&times;</div>
+        <div class="popup-details">
+          <img id="popup-image" src="" alt="" />
+          <h2 id="popup-title"></h2>
+          <p id="popup-author"></p>
+          <p id="popup-price"></p>
+        </div>
+        <button class="popup-btn">Add to cart</button>
+      </div>
      <!-- Banner container -->
     <div class="banner-container">
       <a href="https://fakestoreapi.com/" target="_blank">
@@ -29,7 +40,7 @@
     
     <footer>
       <a href="https://github.com/anthitariel/mustache-bookstore" target="blank">
-        A Simple Mustache Template Repository
+        A Simple Mustache Template - GitHub Repository
       </a>
     </footer>
   </div>
