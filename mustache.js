@@ -3,58 +3,80 @@ const bookList = [
   {
     genre: "Fantasy",
     books: [
-      { author: "J.K. Rowling", title: "Harry Potter", price: "$19.99" },
-      { author: "George R.R. Martin", title: "A Game of Thrones", price: "$24.99" },
-      { author: "Terry Pratchett", title: "Discworld", price: "$15.99" },
-      { author: "Neil Gaiman", title: "American Gods", price: "$21.99" },
-      { author: "Brandon Sanderson", title: "Mistborn", price: "$18.99" }
+      { author: "J.K. Rowling", title: "Harry Potter", price: "$19.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "George R.R. Martin", title: "A Game of Thrones", price: "$24.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Terry Pratchett", title: "Discworld", price: "$15.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Neil Gaiman", title: "American Gods", price: "$21.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Brandon Sanderson", title: "Mistborn", price: "$18.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" }
     ],
   },
   {
     genre: "Fairy Tales",
     books: [
-      { author: "Hans Christian Andersen", title: "The Little Mermaid", price: "$14.99" },
-      { author: "Brothers Grimm", title: "Cinderella", price: "$16.99" },
-      { author: "Charles Perrault", title: "Beauty and the Beast", price: "$12.99" },
-      { author: "Lewis Carroll", title: "Alice's Adventures in Wonderland", price: "$20.99" },
-      { author: "J.M. Barrie", title: "Peter Pan", price: "$17.99" }
+      { author: "Hans Christian Andersen", title: "The Little Mermaid", price: "$14.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Brothers Grimm", title: "Cinderella", price: "$16.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Charles Perrault", title: "Beauty and the Beast", price: "$12.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "Lewis Carroll", title: "Alice's Adventures in Wonderland", price: "$20.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" },
+      { author: "J.M. Barrie", title: "Peter Pan", price: "$17.99", image: "https://cdn.dc5.ro/img-prod/98719839-1.jpeg" }
     ],
   },
 ];
 
-// Select all elements with class "book-shelf"
-const bookShelves = $(".book-shelf");
+// Mustache template for rendering books
+const template = `
+  {{#books}}
+    <li>
+      <img src="{{image}}" alt="{{title}} Cover" width="15" height="20">
+      {{ author }} - {{ title }} - {{ price }}
+    </li>
+  {{/books}}
+  <div class="shelf" data-genre="{{genre}}">
+    <h2 class="book-shelf-title">{{genre}} Books</h2>
+    <button class="book-shelf-btn">Shop now</button>
+    <ul class="book-list" style="display: none"></ul>
+  </div>
+`;
 
-// Generate HTML for each bookshelf and append it to the DOM
-bookList.forEach(shelf => {
-  const shelfHTML = `
-    <div class="shelf" data-genre="${shelf.genre}">
-      <h2 class="book-shelf-title">${shelf.genre} Books</h2>
-      <button class="book-shelf-btn">Shop now</button>
-      <ul class="book-list" style="display: none"></ul>
+// Function to generate HTML for a bookshelf dynamically
+function generateBookshelfHtml(genre, btnId, shelfId, booksId, booksData) {
+  return `
+    <div class="book-shelf">
+      <div id="${shelfId}">
+        <h2 class="book-shelf-title">${genre} Books</h2>
+        <button id="${btnId}">Shop now</button>
+        <ul id="${booksId}" style="display: none"></ul>
+      </div>
     </div>
   `;
-  bookShelves.append(shelfHTML);
+}
+
+// Container element for bookshelves
+const container = $(".book-shelf");
+
+// Loop through each genre and create corresponding bookshelves
+bookList.forEach(({ genre, books }, index) => {
+  const btnId = `btn-${index}`;
+  const shelfId = `shelf-${index}`;
+  const booksId = `books-${index}`;
+
+  // Append dynamically generated bookshelf HTML to the container
+  container.append(generateBookshelfHtml(genre, btnId, shelfId, booksId, books));
+
+  // Attach event handler for the "Shop now" button click
+  $(`#${btnId}`).on("click", function () {
+    toggleBookList(`#${booksId}`, books, genre);
+  });
 });
 
-// Event handling for dynamically generated buttons
-bookShelves.on("click", ".book-shelf-btn", function () {
-  const bookList = $(this).siblings(".book-list");
-  const genre = $(this).closest(".shelf").data("genre");
-  const booksData = bookList.find(shelf => shelf.genre === genre).books;
-  toggleBookList(bookList, booksData);
-});
-
-// Function to toggle book list visibility
-function toggleBookList(bookListId, booksData) {
-  let bookList = $(bookListId);
-  let isHidden = bookList.is(":hidden");
+// Function to toggle visibility of the book list
+function toggleBookList(bookListId, booksData, genre) {
+  const bookList = $(bookListId);
+  const isHidden = bookList.is(":hidden");
 
   if (isHidden) {
-    let template = "{{#books}}<li>{{ author }} - {{ title }} - {{ price }}</li>{{/books}}";
-    let renderedBooks = Mustache.render(template, { books: booksData });
-    bookList.html(renderedBooks);
-    bookList.show();
+    // Render books using Mustache template and show the book list
+    const renderedBooks = Mustache.render(template, { books: booksData, genre: genre });
+    bookList.html(renderedBooks).show();
   } else {
     bookList.hide();
   }
